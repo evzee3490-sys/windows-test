@@ -18,3 +18,14 @@ jobs:
 
           Write-Host "=== CPU ==="
           (Get-CimInstance Win32_Processor).NumberOfLogicalProcessors
+          - name: Install Google Chrome
+        shell: powershell
+        run: |
+          $url = "https://dl.google.com/chrome/install/latest/chrome_installer.exe"
+          $installer = "$env:TEMP\chrome_installer.exe"
+
+          Invoke-WebRequest -Uri $url -OutFile $installer
+          Start-Process $installer -ArgumentList "/silent","/install" -Wait
+          Remove-Item $installer -Force
+
+          Write-Host "Chrome installation completed."
